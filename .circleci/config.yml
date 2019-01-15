@@ -4,18 +4,23 @@
 version: 2
 jobs:
   build:
-    # only build the circleci branch for now
-    branches:
-      only:
-        - circleci
     docker:
       # specify the version
-      - image: circleci/golang:1.10
-    working_directory: /go/src/github.com/robmorgan/terraform-rolling-deploys
+      - image: circleci/golang:1.9
+      
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
+
+    #### TEMPLATE_NOTE: go expects specific checkout path representing url
+    #### expecting it in the form of
+    ####   /go/src/github.com/circleci/go-tool
+    ####   /go/src/bitbucket.org/circleci/go-tool
+    working_directory: /go/src/github.com/archiebw-amido/po-flow
     steps:
       - checkout
-      - run: curl -L -s https://github.com/golang/dep/releases/download/v0.4.1/dep-linux-amd64 -o /go/bin/dep && chmod +x /go/bin/dep
-      - run: curl -L -s https://releases.hashicorp.com/packer/1.2.3/packer_1.2.3_linux_amd64.zip -o /go/bin/packer.zip && unzip /go/bin/packer.zip -d /go/bin && chmod +x /go/bin/packer
-      - run: curl -L -s https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip -o /go/bin/terraform.zip && unzip /go/bin/terraform.zip -d /go/bin && chmod +x /go/bin/terraform
-      - run: dep ensure -vendor-only
-      - run: make test
+
+      # specify any bash command here prefixed with `run: `
+      - run: go get -v -t -d ./...
+      - run: go test -v ./...
