@@ -3,5 +3,5 @@ variable "region" {
 }
 
 variable "site_name" {
-    default = "amido-po-flow.com"  
+    default = "postoffice.clients.amido.com"  
 }
