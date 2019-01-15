@@ -34,22 +34,7 @@
 
     <div class="row">
       <div class="col align-self-center text-center">
-        <video id="preview"></video>
-        <script type="text/javascript">
-          let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
-          scanner.addListener('scan', function (content) {
-            console.log(content);
-          });
-          Instascan.Camera.getCameras().then(function (cameras) {
-            if (cameras.length > 0) {
-              scanner.start(cameras[0]);
-            } else {
-              console.error('No cameras found.');
-            }
-          }).catch(function (e) {
-            console.error(e);
-          });
-        </script>
+        <video id="preview"></video>        
       </div>
     </div>
 
@@ -61,8 +46,24 @@
       crossorigin="anonymous"></script>
     <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
       crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./js/instascan.min.js"></script>
+    <script type="text/javascript">
+      var scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+      scanner.addListener('scan', function (content) {
+        console.log(content);
+      });
+      Instascan.Camera.getCameras().then(function (cameras) {
+        if (cameras.length > 0) {
+          scanner.start(cameras[0]);
+        } else {
+          console.error('No cameras found.');
+        }
+      }).catch(function (e) {
+        console.error(e);
+      });
+    </script>
     <script>$(document).ready(function () { $('body').bootstrapMaterialDesign(); });</script>
-    <script type="text/javascript" src="instascan.min.js"></script>
+    
 </body>
 
 </html>
