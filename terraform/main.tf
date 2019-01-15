@@ -33,7 +33,3 @@ resource "aws_s3_bucket" "www_site" {
     error_document = "error.html"
   }
 }
-
-resource "aws_route53_zone" "subdomain" {
-  name = "${var.site_name}"
-}
