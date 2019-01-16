@@ -33,48 +33,39 @@
     </div>
 
     <div class="row">
-      <div class="col align-self-center text-center">
-        <input type=text size=16 placeholder="Tracking Code" class=qrcode-text>
-        <input type=file accept="image/*" capture=environment onchange="openQRCamera(this);" tabindex=-1></label>
+      <div class="col-md-4 align-self-center">
+        <div id="reader" style="width:300px;height:250px">
+        </div>
+        <h6>Result</h6>
+        <span id="read" class="center"></span>
+        <br>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col align-self-center text-center"></div>
-        <input class="btn btn-primary btn-raised btn-lg" type=button value="Go" disabled>
-      </div>
-    </div>
-    
-  </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->    
 
-  <script>
-    function openQRCamera(node) {
-      var reader = new FileReader();
-      reader.onload = function () {
-        node.value = "";
-        qrcode.callback = function (res) {
-          if (res instanceof Error) {
-            alert("No QR code found. Please make sure the QR code is within the camera's frame and try again.");
-          } else {
-            node.parentNode.previousElementSibling.value = res;
-          }
-        };
-        qrcode.decode(reader.result);
-      };
-      reader.readAsDataURL(node.files[0]);
-    }
-  </script>
-
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
-    crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
-    crossorigin="anonymous"></script>
-  <script>$(document).ready(function () { $('body').bootstrapMaterialDesign(); });</script>
-
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
+      crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
+      crossorigin="anonymous"></script>
+    <script src="https://dmla.github.io/jsqrcode/src/qr_packed.js" integrity="sha256-CnwV/EeXPOtHwbrplHHvnyCFab/UazYcfRMM8Ow13M4="
+      crossorigin="anonymous"></script>
+    <script src="./js/scanner.js"></script>
+    <script>
+      $(document).ready(function () {
+        $('body').bootstrapMaterialDesign();
+        $('#reader').html5_qrcode(function (data) {
+            alert(data);
+          },
+            function (error) {
+              console.log(error);
+            }, function (videoError) {
+              console.log(videoError);
+            });
+      });</script>
 </body>
 
 </html>
