@@ -34,36 +34,47 @@
 
     <div class="row">
       <div class="col align-self-center text-center">
-        <video id="preview"></video>        
+        <input type=text size=16 placeholder="Tracking Code" class=qrcode-text>
+        <input type=file accept="image/*" capture=environment onchange="openQRCamera(this);" tabindex=-1></label>
       </div>
     </div>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
-      crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
-      crossorigin="anonymous"></script>
-    <script type="text/javascript" src="./js/instascan.min.js"></script>
-    <script type="text/javascript">
-      var scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
-      scanner.addListener('scan', function (content) {
-        console.log(content);
-      });
-      Instascan.Camera.getCameras().then(function (cameras) {
-        if (cameras.length > 0) {
-          scanner.start(cameras[0]);
-        } else {
-          console.error('No cameras found.');
-        }
-      }).catch(function (e) {
-        console.error(e);
-      });
-    </script>
-    <script>$(document).ready(function () { $('body').bootstrapMaterialDesign(); });</script>
+    <div class="row">
+      <div class="col align-self-center text-center"></div>
+        <input class="btn btn-primary btn-raised btn-lg" type=button value="Go" disabled>
+      </div>
+    </div>
     
+  </div>
+
+  <script>
+    function openQRCamera(node) {
+      var reader = new FileReader();
+      reader.onload = function () {
+        node.value = "";
+        qrcode.callback = function (res) {
+          if (res instanceof Error) {
+            alert("No QR code found. Please make sure the QR code is within the camera's frame and try again.");
+          } else {
+            node.parentNode.previousElementSibling.value = res;
+          }
+        };
+        qrcode.decode(reader.result);
+      };
+      reader.readAsDataURL(node.files[0]);
+    }
+  </script>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
+    crossorigin="anonymous"></script>
+  <script>$(document).ready(function () { $('body').bootstrapMaterialDesign(); });</script>
+
 </body>
 
 </html>
